@@ -1,39 +1,39 @@
 from django.http import HttpResponse
 from .models import Topic, Course, Student, Order
-from django.shortcuts import  get_object_or_404
+from django.shortcuts import get_object_or_404
+
+#  Import render for rendering templates
+from django.shortcuts import render
 
 
 def index(request):
-    course_list = Course.objects.all().order_by('-price')[:10]
-    response = HttpResponse()
-    heading1 = '<p>' + 'List of Courses: '  + '</p>' 
-    response.write(heading1)
-    for course in course_list:
-        if course.for_everyone == True:
-            para = '<p>' + str(course.id) + ': ' + str(course) + ' : <b>This course is for Everyone</b></p>'
-        else:
-            para = '<p>' + str(course.id) + ': ' + str(course) + ' : <b>This course is not for Everyone</b></p>'    
-        response.write(para)
-    return response
+    # Part B answer
+    top_list = Topic.objects.all().order_by('id')[:10]
+    return render(request, 'mywebapp/index0.html', {'top_list': top_list})
+
+#  Part C answer
+# We are passing top_list to template because we have to access it to the template file which we will create so that this data can be accessed in that template.
+
 
 def about(request):
-    response = HttpResponse()
-    response.write("This is an E-learning Website! Search our Topics to find all available Courses.")
-    return response
+    print("Welcome guys")
+    return render(request, 'mywebapp/about0.html')
+
 
 def detail(request, top_no):
-    topic_detail = Topic.objects.filter(id=top_no).values()
-    if not topic_detail:
-        datatoSend = get_object_or_404(topic_detail)
-    else:
-        response = HttpResponse()
-        para = '<p>Detail for Topic <br>ID: ' + str(topic_detail[0].get('id')) + '<br> Name: <b>' + str(topic_detail[0].get('name')) + '</b><br>Category: <b>' + str(topic_detail[0].get('category')) +'</b></p>'
-        course_list = Course.objects.filter(topic=topic_detail[0].get('id'))
-        print(course_list)
-        headingForTitle = '<p>List of course for that topic are as below</p>'
-        dataToSend = para + headingForTitle
-        for course in course_list:
-            print(course)
-            dataToSend += '<li>' + str(course) + '</li>'
-    response.write(dataToSend)
-    return response
+    response = HttpResponse()
+    topics = Topic.objects.filter(id=top_no).values()
+    if not topics:
+        response.write(get_object_or_404(topics))
+        return response
+
+    # para = '<p> Category is:  ' + str(topics[0].get('category')) + '</p>'
+    # response.write(para)
+    courses = Course.objects.filter(topic=top_no)
+
+    # response.write('<ul>')
+    # for c in courses:
+    #     para = '<li>' + str(c) + '</li>'
+    #     response.write(para)
+    # response.write('</ul>')
+    return render(request, 'mywebapp/detail0.html', {'topic_name': topics[0].get('category'),'name' : topics[0].get('name'), 'courses': courses})

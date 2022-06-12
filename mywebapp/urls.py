@@ -22,6 +22,6 @@ app_name = 'mywebapp'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'myapp/', views.index, name='index'),
+    path(r'myapp/about', views.about, name='about'),
     path(r'myapp/<top_no>', views.detail, name='detail'),
-    path(r'myapp/about/', views.about, name='about')
 ]
