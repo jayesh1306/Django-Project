@@ -9,7 +9,7 @@ from django.shortcuts import render
 def index(request):
     # Part B answer
     top_list = Topic.objects.all().order_by('id')[:10]
-    return render(request, 'mywebapp/index0.html', {'top_list': top_list})
+    return render(request, 'mywebapp/index.html', {'top_list': top_list})
 
 #  Part C answer
 # We are passing top_list to template because we have to access it to the template file which we will create so that this data can be accessed in that template.
@@ -17,7 +17,7 @@ def index(request):
 
 def about(request):
     print("Welcome guys")
-    return render(request, 'mywebapp/about0.html')
+    return render(request, 'mywebapp/about.html')
 
 
 def detail(request, top_no):
@@ -36,4 +36,4 @@ def detail(request, top_no):
     #     para = '<li>' + str(c) + '</li>'
     #     response.write(para)
     # response.write('</ul>')
-    return render(request, 'mywebapp/detail0.html', {'topic_name': topics[0].get('category'),'name' : topics[0].get('name'), 'courses': courses})
+    return render(request, 'mywebapp/detail.html', {'topic_name': topics[0].get('category'),'name' : topics[0].get('name'), 'courses': courses})

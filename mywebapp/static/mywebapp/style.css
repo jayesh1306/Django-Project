@@ -1,0 +1,13 @@
+.hbar1 {
+    display: inline;
+    margin: 15px;
+}
+
+h1 {
+    background-color: lightblue;
+    color: red;
+    font-size: 30px;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
+    position: 0;
+}
