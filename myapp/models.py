@@ -1,3 +1,4 @@
+from statistics import mode
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
@@ -7,18 +8,25 @@ from django.utils import timezone
 # Create your models here.
 class Topic(models.Model):
     name = models.CharField(max_length=200)
-    category = models.CharField(max_length=50, null=False, blank=False, default='Category001')
+    category = models.CharField(
+        max_length=50, null=False, blank=False, default='Category001')
 
     def __str__(self):
         return self.name + " , " + self.category
 
 
 class Course(models.Model):
-    topic = models.ForeignKey(Topic, related_name='courses', on_delete=models.CASCADE)
+    topic = models.ForeignKey(
+        Topic, related_name='courses', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     for_everyone = models.BooleanField(default=True)
     description = models.TextField(max_length=300, null=True, blank=True)
+    interested = models.PositiveIntegerField(default=0)
+    stages = models.PositiveIntegerField(default=3)
+
+    def discount(self):
+        return self.price * 0.9
 
     def __str__(self):
         return self.name
